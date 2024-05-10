@@ -4,7 +4,7 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import {images} from "../../constants";
 import FormFields from "../../components/FormFields";
 import CustomButton from "../../components/CustomButton";
-import {Link} from "expo-router";
+import {Link, router} from "expo-router";
 import {LogIn} from "../../lib/appwrite";
 
 const SignIn = () => {
@@ -19,23 +19,16 @@ const SignIn = () => {
 			Alert.alert(`Error`, "Please fill all the fields fields");
 			return;
 		}
-
 		setIsSubmitting(true);
 
-		LogIn(form.email, form.password);
-
-		// 	try {
-		// 		await signIn(form.email, form.password);
-
-		// 		//todo add global state..
-
-		// 		router.replace(`/home`);
-		// 	} catch (error) {
-		// 		Alert.alert(`Error`, error.message);
-		// 	} finally {
-		// 		setIsSubmitting(false);
-		// 	}
-		// };
+		try {
+			await LogIn(form.email, form.password);
+			router.replace(`/home`);
+		} catch (error) {
+			Alert.alert(`Error`, error.message);
+		} finally {
+			setIsSubmitting(false);
+		}
 	};
 	return (
 		<SafeAreaView
